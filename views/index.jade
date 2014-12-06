@@ -14,6 +14,12 @@ block content
 					a(id='cq3' href='#') Challenge question 3
 				li
 					a(id='cq4' href='#') Challenge question 4
+			#controls
+				.cq-1
+					#slider
+						<input id="date" type="text" data-slider-min="1" data-slider-max="18" data-slider-step="1" data-slider-value="1"/><br/>
+						<span id="slider">Year-Month: <span id="default_date">2012-07</span></span><br/>
+						<select class="selectpicker"><option selected="selected" class="cq1-attr">Salary</option><option class="cq1-attr">Job Type</option><option class="cq1-attr">Company</option></select>
 		#page-content-wrapper
 			.contrainer-fluid
 				.row
@@ -24,6 +30,3 @@ block content
 							a(href='#menu-toggle' id='menu-toggle')
 								span(class='glyphicon glyphicon-fullscreen')
 	#canvas-div
-	#slider
-		<input id="date" type="text" data-slider-min="1" data-slider-max="18" data-slider-step="1" data-slider-value="1"/>
-		<span id="slider">Current Slider Value: <span id="default_date">2010-07</span></span>

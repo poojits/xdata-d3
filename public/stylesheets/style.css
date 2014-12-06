@@ -23,3 +23,11 @@ a {
 .bubble :hover {
   stroke: black;
 }
+#controls {
+  position: relative;
+  left: 15px;
+  top: 250px;
+}
+.cq-1 {
+  display: none;
+}

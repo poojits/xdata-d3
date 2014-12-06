@@ -1,3 +1,4 @@
+var temporalStart = false;
 $(document).ready(function() {
   $("#menu-toggle").click(function(e) {
     e.preventDefault();
@@ -8,13 +9,41 @@ $(document).ready(function() {
   $("#cq3").on('click',cq3);
   $("#cq4").on('click',cq4);
 
-  	var slider = new Slider("#date");
-    slider.on("slide", function(slideEvt) {
-        var inc = slideEvt.value
-    	$("#default_date").text(monthYear(slideEvt.value));
-    });
+	var slider = new Slider("#date");
+  slider.on("slide", function(slideEvt) {
+    var inc = slideEvt.value
+  	$("#default_date").text(monthYear(slideEvt.value));
+  });
+  var cq1T = false;
+  slider.on("change", function(changeEvt){
+    cq1T = !cq1T;
+    if(cq1T){
+      temporalStart = true;
+      var yearMonth = $('#default_date').text();
+      makecq1({startDate: yearMonth, endDate: yearMonth, field: getCQ1Attr()});
+    }
+  });
+  $('.cq1-attr').on('click', cq1Attr);
 
 });
+function getCQ1Attr() {
+  var selected = $('.selectpicker option:selected').val();
+  var attr;
+  if(selected == "Company") attr = "company";
+  if(selected == "Salary") attr = "salary";
+  if(selected == "Job Type") attr = "jobtype";
+  return attr;
+}
+function cq1Attr(event){
+  var attr = getCQ1Attr();
+  if(temporalStart) {
+    var yearMonth = $('#default_date').text();
+    makecq1({startDate: yearMonth, endDate: yearMonth, field: attr});
+  }
+  else {
+    makecq1({startDate: "2010-01", endDate: "2013-12", field: attr});
+  }
+}
 function monthYear(inc) {
   var by6 = inc/6;
   var output;
@@ -27,25 +56,65 @@ function monthYear(inc) {
   }
   return output;
 }
-function cq1(event) {
-  event.preventDefault();
+function makecq1(params) {
   $('#canvas-div').empty();
-  $.getJSON( "/cq1" , {startDate: "2010-01", endDate: "2013-01", field: "salary"}, function( json ) {
-    console.log(json);
-    makeMap(json,3000);
+  $.getJSON( "/cq1" , params, function( json ) {
+    updateMap(json,3000);
   });
 }
+function cq1(event) {
+  event.preventDefault();
+  $('.selectpicker').val('Salary');
+  temporalStart = false;
+  hideControls();
+  makecq1({startDate: "2010-01", endDate: "2013-12", field: "salary"});
+  $('.cq-1').css("display","block");
+}
+function hideControls() {
+  $('.cq-1').css("display","none");
+}
 function cq2(event) {
+  temporalStart = false;
   event.preventDefault();
   $('#canvas-div').empty();
+  hideControls();
 }
 function cq3(event) {
+  temporalStart = false;
   event.preventDefault();
   $('#canvas-div').empty();
 }
 function cq4(event) {
+  temporalStart = false;
   event.preventDefault();
   $('#canvas-div').empty();
+}
+function updateMap(data, scale) {
+  if($('#cq-data').length==0){
+    makeMap(data,scale);
+  }
+  else{
+    var svg = $('#cq-data').parent();
+    $('#cq-data').remove();
+    svg.append("g")
+        .attr("id","cq-data")
+        .attr("class","bubble")
+        .selectAll("circle")
+        .data(data)
+        .enter().append("circle")
+        .attr("transform", function(d) {
+          return "translate(" + projection([
+            d.longitude,
+            d.latitude
+          ]) + ")"
+        })
+        .attr("r", function(d) {
+          return Math.log(d.count*scale)*2;
+        })
+        .append("title").text(function(d){
+          return "tooltip";
+        });
+  }
 }
 function makeMap(data, scale) {
   // canvas resolution
@@ -79,6 +148,7 @@ function makeMap(data, scale) {
       .attr("class","land");
 
     svg.append("g")
+      .attr("id","cq-data")
       .attr("class","bubble")
       .selectAll("circle")
       .data(data)
@@ -93,7 +163,7 @@ function makeMap(data, scale) {
         return Math.log(d.count*scale)*2;
       })
       .append("title").text(function(d){
-        return "tooltip";
+        return d.value + ', Count: ' + d.realCount ;
       });
 
   });
