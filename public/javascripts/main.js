@@ -7,6 +7,12 @@ $(document).ready(function() {
   $("#cq2").on('click',cq2);
   $("#cq3").on('click',cq3);
   $("#cq4").on('click',cq4);
+
+  	var slider = new Slider("#date");
+    slider.on("slide", function(slideEvt) {
+    	$("#default_date").text(slideEvt.value);
+    });
+
 });
 function cq1(event) {
   event.preventDefault();
