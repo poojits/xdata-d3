@@ -89,7 +89,7 @@ function monthYear(inc) {
   return output;
 }
 function makecq1(params) {
-  $('#canvas-div').empty();
+  //$('#canvas-div').empty();
   $.getJSON( "/cq1" , params, function( json ) {
     updateMap(json,3000);
   });
@@ -132,13 +132,13 @@ function runcq4(){
   return false;
 }
 function makecq2(params) {
-  $('#canvas-div').empty();
+  //$('#canvas-div').empty();
   $.getJSON( "/cq2" , params, function( json ) {
     updateMap(json,3000);
   });
 }
 function makecq4(params) {
-  $('#canvas-div').empty();
+  //$('#canvas-div').empty();
   $.getJSON( "/cq4" , params, function( json ) {
     updateMap(json,3000);
   });
@@ -162,7 +162,7 @@ function getJobCat() {
 function cq2(event) {
   $('#company_name').val('');
   event.preventDefault();
-  $('#canvas-div').empty();
+ // $('#canvas-div').empty();
   hideControls();
   $('.cq-2').css("display","block");
   alert('Please enter a company name.');
@@ -170,26 +170,33 @@ function cq2(event) {
 function cq4(event) {
   $('#jobcat').val('');
   event.preventDefault();
-  $('#canvas-div').empty();
+  //$('#canvas-div').empty();
   hideControls();
   $('.cq-4').css("display","block");
   alert('Please enter a job category.');
 }
 function cq3(event) {
   event.preventDefault();
-  $('#canvas-div').empty();
+  //$('#canvas-div').empty();
   hideControls();
   $.getJSON( "/cq3" , function( json ) {
     updateMap(json,3000);
   });
 }
 function updateMap(data, scale) {
-  console.log('updateMap called');
   if($('#cq-data').length==0){
     makeMap(data,scale);
   }
   else{
-    var svg = $('#cq-data').parent();
+    var projection = d3.geo.mercator()
+    // where to center the map in degrees
+    .center([0, 40])
+    // zoomlevel
+    .scale(200)
+    // map-rotation
+    .rotate([0, 0]);
+    console.log('updateMap called');
+    var svg = d3.select("#canvas-div svg");
     $('#cq-data').remove();
     svg.append("g")
         .attr("id","cq-data")
