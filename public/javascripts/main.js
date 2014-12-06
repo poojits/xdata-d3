@@ -118,6 +118,7 @@ function runcq2(){
   else {
     makecq2({startDate: "2010-01", endDate: "2013-12", company_name: cn});
   }
+  return false;
 }
 function runcq4(){
   var jb = $('#jobcat').val();
@@ -128,6 +129,7 @@ function runcq4(){
   else {
     makecq4({startDate: "2010-01", endDate: "2013-12", jobcat: jb});
   }
+  return false;
 }
 function makecq2(params) {
   $('#canvas-div').empty();
@@ -182,6 +184,7 @@ function cq3(event) {
   });
 }
 function updateMap(data, scale) {
+  console.log('updateMap called');
   if($('#cq-data').length==0){
     makeMap(data,scale);
   }
