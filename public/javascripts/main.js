@@ -31,13 +31,13 @@ function cq4(event) {
 function makeMap(data, scale) {
   // canvas resolution
   var width = 960;
-  var height = 600;
+  var height = 700;
   // projection-settings for mercator
   var projection = d3.geo.mercator()
     // where to center the map in degrees
-    .center([-70, 2])
+    .center([0, 40])
     // zoomlevel
-    .scale(300)
+    .scale(200)
     // map-rotation
     .rotate([0, 0]);
   // defines "svg" as data type and "make canvas" command
