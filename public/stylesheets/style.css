@@ -6,13 +6,20 @@ a {
   color: #00B7FF;
 	outline: none;
 }
-path {
-    stroke: grey;
-    stroke-width: 0.5px;
-    fill: #ccc;
+.land {
+  fill: #ddd;
 }
-circle {
-    fill-opacity: .5;
-    stroke: #fff;
-    stroke-width: .5px;
+ path {
+  stroke: grey;
+  stroke-width: 0.5px;
+  fill: #ccc;
+}
+.bubble {
+  fill-opacity: .5;
+  stroke: #fff;
+  stroke-width: .5px;
+  fill: brown;
+}
+.bubble :hover {
+  stroke: black;
 }

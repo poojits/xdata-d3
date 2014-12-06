@@ -30,14 +30,14 @@ function cq4(event) {
 }
 function makeMap(data) {
   // canvas resolution
-  var width = 900;
+  var width = 960;
   var height = 600;
   // projection-settings for mercator
   var projection = d3.geo.mercator()
     // where to center the map in degrees
-    .center([0, 40])
+    .center([-70, 2])
     // zoomlevel
-    .scale(150)
+    .scale(300)
     // map-rotation
     .rotate([0, 0]);
   // defines "svg" as data type and "make canvas" command
@@ -56,18 +56,27 @@ function makeMap(data) {
         .features)
       .enter()
       .append("path")
-      .attr("d", path);
-    svg.selectAll(".pin")
+      .attr("d", path)
+      .attr("class","land");
+
+    svg.append("g")
+      .attr("class","bubble")
+      .selectAll("circle")
       .data(data)
-      .enter().append("circle", ".pin")
-      .attr("r", function(d) {
-        return d.count*10;
-      })
+      .enter().append("circle")
       .attr("transform", function(d) {
         return "translate(" + projection([
           d.longitude,
           d.latitude
         ]) + ")"
+      })
+      .attr("r", function(d) {
+        return d.count*10;
+      })
+      .append("title").text(function(d){
+        return "tooltip";
       });
   });
+
+d3.select(self.frameElement).style("height", height + "px");
 }
