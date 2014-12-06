@@ -15,7 +15,7 @@ router.get('/cq1', function(req, res) {
 	  	var pivots = body.facet_counts.facet_pivot['geohash2,salary'];
 	    var totalCount = 0;
 	    var output = [];
-	    var max = pivots[0].count;
+	    var max = pivots[0].pivot[0].count;
 	    for(var i=0;i<pivots.length;i++){
 			var latlon = geohash.decode(pivots[i].value);
 	    	var latitude = latlon.latitude;
@@ -23,7 +23,7 @@ router.get('/cq1', function(req, res) {
 	    	var obj = {};
 	    	obj.latitude = latitude;
 	    	obj.longitude = longitude;
-	    	obj.count = (pivots[i].count/max)*5;
+	    	obj.count = (pivots[i].pivot[0].count/max);
 	    	output.push(obj);
 	    }
 	    res.json(output);

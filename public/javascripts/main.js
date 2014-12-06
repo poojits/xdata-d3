@@ -13,7 +13,7 @@ function cq1(event) {
   $('#canvas-div').empty();
   $.getJSON( "/cq1", function( json ) {
     console.log(json);
-    makeMap(json);
+    makeMap(json,10);
   });
 }
 function cq2(event) {
@@ -28,7 +28,7 @@ function cq4(event) {
   event.preventDefault();
   $('#canvas-div').empty();
 }
-function makeMap(data) {
+function makeMap(data, scale) {
   // canvas resolution
   var width = 960;
   var height = 600;
@@ -71,11 +71,12 @@ function makeMap(data) {
         ]) + ")"
       })
       .attr("r", function(d) {
-        return d.count*10;
+        return d.count*scale;
       })
       .append("title").text(function(d){
         return "tooltip";
       });
+
   });
 
 d3.select(self.frameElement).style("height", height + "px");
