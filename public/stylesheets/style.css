@@ -11,3 +11,8 @@ path {
     stroke-width: 0.5px;
     fill: #ccc;
 }
+circle {
+    fill-opacity: .5;
+    stroke: #fff;
+    stroke-width: .5px;
+}
