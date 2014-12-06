@@ -4,6 +4,7 @@ body {
 
 a {
   color: #00B7FF;
+	outline: none;
 }
 path {
     stroke: grey;
