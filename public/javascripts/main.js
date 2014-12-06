@@ -11,7 +11,7 @@ $(document).ready(function() {
 function cq1(event) {
   event.preventDefault();
   $('#canvas-div').empty();
-  $.getJSON( "/cq1", function( json ) {
+  $.getJSON( "/cq1" , {startDate: "2010-01", endDate: "2013-01", field: "salary"}, function( json ) {
     console.log(json);
     makeMap(json,3000);
   });
