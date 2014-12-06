@@ -10,8 +10,12 @@ $(document).ready(function() {
 });
 function cq1(event) {
   event.preventDefault();
-  var cq = $(this).id;
-  console.log(event.target.id);
+  var cq = event.target.id;
+  $.getJSON( "/cq1", function( json ) {
+    console.log(json);
+    $('#canvas-div').empty();
+    makeMap(json);
+  });
 }
 function cq2(event) {
   event.preventDefault();
@@ -61,7 +65,7 @@ function makeMap(data) {
       .data(data)
       .enter().append("circle", ".pin")
       .attr("r", function(d) {
-        return d.latitude * 0.5;
+        return d.count*100;
       })
       .attr("transform", function(d) {
         return "translate(" + projection([
