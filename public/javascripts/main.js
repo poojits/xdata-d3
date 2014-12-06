@@ -14,7 +14,7 @@ xdata = [{"latlong":"-34.4948079,-58.5164546","latitude":"-34.4948079","lastSeen
       .rotate([0, 0]);
 
   // defines "svg" as data type and "make canvas" command
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#canvas-div").append("svg")
       .attr("width", width)
       .attr("height", height);
 
