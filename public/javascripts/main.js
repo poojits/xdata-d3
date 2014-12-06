@@ -1,5 +1,6 @@
 var temporalStart = false;
 var temporalStart2 = false;
+var temporalStart4 = false;
 $(document).ready(function() {
   $("#menu-toggle").click(function(e) {
     e.preventDefault();
@@ -20,8 +21,14 @@ $(document).ready(function() {
     var inc = slideEvt.value
     $("#default_date2").text(monthYear(slideEvt.value));
   });
+  var slider4 = new Slider("#date4");
+  slider4.on("slide", function(slideEvt) {
+    var inc = slideEvt.value
+    $("#default_date4").text(monthYear(slideEvt.value));
+  });
   var cq1T = false;
   var cq2T = false;
+  var cq4T = false;
   slider.on("change", function(changeEvt){
     cq1T = !cq1T;
     if(cq1T){
@@ -38,6 +45,16 @@ $(document).ready(function() {
       var cn = getCompanyName();
       if(cn!=false)
         makecq2({startDate: yearMonth, endDate: yearMonth, company_name: cn});
+    }
+  });
+  slider4.on("change", function(changeEvt){
+    cq4T = !cq4T;
+    if(cq4T){
+      temporalStart4 = true;
+      var yearMonth = $('#default_date4').text();
+      var jc = getJobCat();
+      if(jc!=false)
+        makecq4({startDate: yearMonth, endDate: yearMonth, jobcat: jc});
     }
   });
 });
@@ -87,8 +104,10 @@ function cq1(event) {
 function hideControls() {
   $('.cq-1').css("display","none");
   $('.cq-2').css("display","none");
+  $('.cq-4').css("display","none");
   temporalStart = false;
   temporalStart2 = false;
+  temporalStart4 = false;
 }
 function runcq2(){
   var cn = $('#company_name').val();
@@ -100,9 +119,25 @@ function runcq2(){
     makecq2({startDate: "2010-01", endDate: "2013-12", company_name: cn});
   }
 }
+function runcq4(){
+  var jb = $('#jobcat').val();
+  if(temporalStart4) {
+    var yearMonth = $('#default_date4').text();
+    makecq4({startDate: yearMonth, endDate: yearMonth, jobcat: jb});
+  }
+  else {
+    makecq4({startDate: "2010-01", endDate: "2013-12", jobcat: jb});
+  }
+}
 function makecq2(params) {
   $('#canvas-div').empty();
   $.getJSON( "/cq2" , params, function( json ) {
+    updateMap(json,3000);
+  });
+}
+function makecq4(params) {
+  $('#canvas-div').empty();
+  $.getJSON( "/cq4" , params, function( json ) {
     updateMap(json,3000);
   });
 }
@@ -114,6 +149,14 @@ function getCompanyName() {
   }
   return cn;
 }
+function getJobCat() {
+  var jc = $('#jobcat').val();
+  if(jc.length==0){
+    alert('Please enter a job category.');
+    return false;
+  }
+  return jc;
+}
 function cq2(event) {
   $('#company_name').val('');
   event.preventDefault();
@@ -122,6 +165,14 @@ function cq2(event) {
   $('.cq-2').css("display","block");
   alert('Please enter a company name.');
 }
+function cq4(event) {
+  $('#jobcat').val('');
+  event.preventDefault();
+  $('#canvas-div').empty();
+  hideControls();
+  $('.cq-4').css("display","block");
+  alert('Please enter a job category.');
+}
 function cq3(event) {
   event.preventDefault();
   $('#canvas-div').empty();
@@ -129,11 +180,6 @@ function cq3(event) {
   $.getJSON( "/cq3" , function( json ) {
     updateMap(json,3000);
   });
-}
-function cq4(event) {
-  event.preventDefault();
-  $('#canvas-div').empty();
-  hideControls();
 }
 function updateMap(data, scale) {
   if($('#cq-data').length==0){
@@ -155,10 +201,10 @@ function updateMap(data, scale) {
           ]) + ")"
         })
         .attr("r", function(d) {
-          return Math.log(d.count*scale)*2;
+          return Math.log(1+d.count*scale)*2;
         })
         .append("title").text(function(d){
-          return "tooltip";
+          return d.value + ', Count: ' + d.realCount ;
         });
   }
 }

@@ -28,9 +28,6 @@ a {
   left: 15px;
   top: 250px;
 }
-.cq-1 {
-  display: none;
-}
-.cq-2 {
+.cq-1, .cq-2, .cq-4 {
   display: none;
 }
