@@ -38,3 +38,11 @@ a {
 #menu-toggle {
   padding-right:20px;
 }
+#footer {
+    bottom: 0;
+    color: black;
+    position: absolute;
+    right: 0;
+    width: 235px;
+    z-index: 999999;
+}
