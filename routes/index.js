@@ -8,6 +8,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cq1', function(req, res) {
+
 	var startDate = req.query.startDate;
 	var endDate = req.query.endDate;
 	var field = req.query.field;

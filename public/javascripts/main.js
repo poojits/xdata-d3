@@ -10,10 +10,23 @@ $(document).ready(function() {
 
   	var slider = new Slider("#date");
     slider.on("slide", function(slideEvt) {
-    	$("#default_date").text(slideEvt.value);
+        var inc = slideEvt.value
+    	$("#default_date").text(monthYear(slideEvt.value));
     });
 
 });
+function monthYear(inc) {
+  var by6 = inc/6;
+  var output;
+  if(by6 <= 1){
+    output = "2012-" + (6 + inc);
+  }
+  else{
+    inc -= 6;
+    output = "2013-" + inc;
+  }
+  return output;
+}
 function cq1(event) {
   event.preventDefault();
   $('#canvas-div').empty();
