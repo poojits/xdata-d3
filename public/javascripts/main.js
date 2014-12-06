@@ -10,27 +10,23 @@ $(document).ready(function() {
 });
 function cq1(event) {
   event.preventDefault();
-  var cq = event.target.id;
+  $('#canvas-div').empty();
   $.getJSON( "/cq1", function( json ) {
     console.log(json);
-    $('#canvas-div').empty();
     makeMap(json);
   });
 }
 function cq2(event) {
   event.preventDefault();
-  var cq = $(this).id;
-  console.log(event.target.id);
+  $('#canvas-div').empty();
 }
 function cq3(event) {
   event.preventDefault();
-  var cq = $(this).id;
-  console.log(event.target.id);
+  $('#canvas-div').empty();
 }
 function cq4(event) {
   event.preventDefault();
-  var cq = $(this).id;
-  console.log(event.target.id);
+  $('#canvas-div').empty();
 }
 function makeMap(data) {
   // canvas resolution
