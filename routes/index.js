@@ -13,21 +13,18 @@ router.get('/cq1', function(req, res) {
 	  if (!error && response.statusCode == 200) {
 	  	body = JSON.parse(body);
 	  	var pivots = body.facet_counts.facet_pivot['geohash2,salary'];
-	  	//res.json(pivots);
 	    var totalCount = 0;
 	    var output = [];
-	    for(var i =0;i<pivots.length;i++){
-	    	totalCount += pivots[i].count;
-	    }
-	    console.log(totalCount);
+	    var max = pivots[0].count;
+	    console.log(max);
 	    for(var i=0;i<pivots.length;i++){
-				var latlon = geohash.decode(pivots[i].value);
+			var latlon = geohash.decode(pivots[i].value);
 	    	var latitude = latlon.latitude;
 	    	var longitude = latlon.longitude;
 	    	var obj = {};
 	    	obj.latitude = latitude;
 	    	obj.longitude = longitude;
-	    	obj.count = pivots[i].count/totalCount;
+	    	obj.count = (pivots[i].count/max)*5;
 	    	output.push(obj);
 	    }
 	    res.json(output);

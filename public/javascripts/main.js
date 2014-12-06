@@ -41,7 +41,7 @@ function makeMap(data) {
     // where to center the map in degrees
     .center([0, 40])
     // zoomlevel
-    .scale(100)
+    .scale(150)
     // map-rotation
     .rotate([0, 0]);
   // defines "svg" as data type and "make canvas" command
@@ -65,7 +65,7 @@ function makeMap(data) {
       .data(data)
       .enter().append("circle", ".pin")
       .attr("r", function(d) {
-        return d.count*100;
+        return d.count*10;
       })
       .attr("transform", function(d) {
         return "translate(" + projection([
