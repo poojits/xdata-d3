@@ -5,3 +5,8 @@ body {
 a {
   color: #00B7FF;
 }
+path {
+    stroke: grey;
+    stroke-width: 0.5px;
+    fill: #ccc;
+}
