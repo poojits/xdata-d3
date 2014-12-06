@@ -1,4 +1,5 @@
 var temporalStart = false;
+var temporalStart2 = false;
 $(document).ready(function() {
   $("#menu-toggle").click(function(e) {
     e.preventDefault();
@@ -14,7 +15,13 @@ $(document).ready(function() {
     var inc = slideEvt.value
   	$("#default_date").text(monthYear(slideEvt.value));
   });
+  var slider2 = new Slider("#date2");
+  slider2.on("slide", function(slideEvt) {
+    var inc = slideEvt.value
+    $("#default_date2").text(monthYear(slideEvt.value));
+  });
   var cq1T = false;
+  var cq2T = false;
   slider.on("change", function(changeEvt){
     cq1T = !cq1T;
     if(cq1T){
@@ -23,8 +30,16 @@ $(document).ready(function() {
       makecq1({startDate: yearMonth, endDate: yearMonth, field: getCQ1Attr()});
     }
   });
-  $('.cq1-attr').on('click', cq1Attr);
-
+  slider2.on("change", function(changeEvt){
+    cq2T = !cq2T;
+    if(cq2T){
+      temporalStart2 = true;
+      var yearMonth = $('#default_date2').text();
+      var cn = getCompanyName();
+      if(cn!=false)
+        makecq2({startDate: yearMonth, endDate: yearMonth, company_name: cn});
+    }
+  });
 });
 function getCQ1Attr() {
   var selected = $('.selectpicker option:selected').val();
@@ -34,7 +49,7 @@ function getCQ1Attr() {
   if(selected == "Job Type") attr = "jobtype";
   return attr;
 }
-function cq1Attr(event){
+function cq1Attr(){
   var attr = getCQ1Attr();
   if(temporalStart) {
     var yearMonth = $('#default_date').text();
@@ -65,29 +80,60 @@ function makecq1(params) {
 function cq1(event) {
   event.preventDefault();
   $('.selectpicker').val('Salary');
-  temporalStart = false;
   hideControls();
   makecq1({startDate: "2010-01", endDate: "2013-12", field: "salary"});
   $('.cq-1').css("display","block");
 }
 function hideControls() {
   $('.cq-1').css("display","none");
+  $('.cq-2').css("display","none");
+  temporalStart = false;
+  temporalStart2 = false;
+}
+function runcq2(){
+  var cn = $('#company_name').val();
+  if(temporalStart2) {
+    var yearMonth = $('#default_date2').text();
+    makecq2({startDate: yearMonth, endDate: yearMonth, company_name: cn});
+  }
+  else {
+    makecq2({startDate: "2010-01", endDate: "2013-12", company_name: cn});
+  }
+}
+function makecq2(params) {
+  $('#canvas-div').empty();
+  $.getJSON( "/cq2" , params, function( json ) {
+    updateMap(json,3000);
+  });
+}
+function getCompanyName() {
+  var cn = $('#company_name').val();
+  if(cn.length==0){
+    alert('Please enter a company name.');
+    return false;
+  }
+  return cn;
 }
 function cq2(event) {
-  temporalStart = false;
+  $('#company_name').val('');
   event.preventDefault();
   $('#canvas-div').empty();
   hideControls();
+  $('.cq-2').css("display","block");
+  alert('Please enter a company name.');
 }
 function cq3(event) {
-  temporalStart = false;
   event.preventDefault();
   $('#canvas-div').empty();
+  hideControls();
+  $.getJSON( "/cq3" , function( json ) {
+    updateMap(json,3000);
+  });
 }
 function cq4(event) {
-  temporalStart = false;
   event.preventDefault();
   $('#canvas-div').empty();
+  hideControls();
 }
 function updateMap(data, scale) {
   if($('#cq-data').length==0){
@@ -160,7 +206,7 @@ function makeMap(data, scale) {
         ]) + ")"
       })
       .attr("r", function(d) {
-        return Math.log(d.count*scale)*2;
+        return Math.log(1+d.count*scale)*2;
       })
       .append("title").text(function(d){
         return d.value + ', Count: ' + d.realCount ;
