@@ -8,7 +8,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/cq1', function(req, res) {
-	var url = 'http://d3.poojit.com:8080/solr/oodt-fm/select?q=postedDate:[2010-11-03T00:00:00Z%20TO%202013-12-03T00:00:00Z]&facet=true&facet.pivot=geohash2,salary&f.salary.facet.limit=1&f.geohash2.facet.limit=100&wt=json&indent=true';
+	var startDate = '[2010-11-03T00:00:00Z%20';
+	var endDate = '%202013-12-03T00:00:00Z]';
+	var field = 'salary';
+	var url = 'http://d3.poojit.com:8080/solr/oodt-fm/select?q=postedDate:'+startDate+'TO'+endDate+'&facet=true&facet.pivot=geohash2,'+field+'&f.'+field+'.facet.limit=1&f.geohash2.facet.limit=100&wt=json&indent=false';
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	  	body = JSON.parse(body);
