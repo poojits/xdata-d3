@@ -52,3 +52,9 @@ xdata = [{"latlong":"-34.4948079,-58.5164546","latitude":"-34.4948079","lastSeen
               });
   });
 });
+$(document).ready(function(){
+  $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+});

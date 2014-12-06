@@ -1,4 +1,23 @@
 extends layout
 
 block content
-	h1 XDATA-D3
+	#wrapper
+		#sidebar-wrapper
+			ul.sidebar-nav
+				li.sidebar-branc
+					h3 Visualizations
+				li
+					a(id='cq1' href='#') Challenge question 1
+				li
+					a(id='cq2' href='#') Challenge question 2
+				li
+					a(id='cq3' href='#') Challenge question 3
+		#page-content-wrapper
+			.contrainer-fluid
+				.row
+					.col-lg-12
+						div(align='center')
+							h4 XDATA D3
+						div(align='right')
+							a(href='#menu-toggle' id='menu-toggle')
+								span(class='glyphicon glyphicon-fullscreen')
