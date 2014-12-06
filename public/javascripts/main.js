@@ -13,7 +13,7 @@ function cq1(event) {
   $('#canvas-div').empty();
   $.getJSON( "/cq1", function( json ) {
     console.log(json);
-    makeMap(json,10);
+    makeMap(json,3000);
   });
 }
 function cq2(event) {
@@ -71,7 +71,7 @@ function makeMap(data, scale) {
         ]) + ")"
       })
       .attr("r", function(d) {
-        return d.count*scale;
+        return Math.log(d.count*scale)*2;
       })
       .append("title").text(function(d){
         return "tooltip";

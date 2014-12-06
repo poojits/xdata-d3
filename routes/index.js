@@ -11,11 +11,11 @@ router.get('/cq1', function(req, res) {
 	var startDate = '[2010-11-03T00:00:00Z%20';
 	var endDate = '%202013-12-03T00:00:00Z]';
 	var field = 'salary';
-	var url = 'http://d3.poojit.com:8080/solr/oodt-fm/select?q=postedDate:'+startDate+'TO'+endDate+'&facet=true&facet.pivot=geohash2,'+field+'&f.'+field+'.facet.limit=1&f.geohash2.facet.limit=100&wt=json&indent=false';
+	var url = 'http://d3.poojit.com:8080/solr/oodt-fm/select?q=postedDate:'+startDate+'TO'+endDate+'&facet=true&facet.pivot=geohash3,'+field+'&f.'+field+'.facet.limit=1&f.geohash3.facet.limit=500&wt=json&indent=false';
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	  	body = JSON.parse(body);
-	  	var pivots = body.facet_counts.facet_pivot['geohash2,salary'];
+	  	var pivots = body.facet_counts.facet_pivot['geohash3,'+field];
 	    var totalCount = 0;
 	    var output = [];
 	    var max = pivots[0].pivot[0].count;
