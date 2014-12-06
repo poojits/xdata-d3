@@ -10,8 +10,11 @@ $(document).ready(function() {
 });
 function cq1(event) {
   event.preventDefault();
-  var cq = $(this).id;
-  console.log(event.target.id);
+  var cq = event.target.id;
+  $.getJSON( "/cq1", function( json ) {
+    $('#canvas-div').empty();
+    makeMap(json);
+  });
 }
 function cq2(event) {
   event.preventDefault();
