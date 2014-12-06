@@ -16,7 +16,6 @@ router.get('/cq1', function(req, res) {
 	    var totalCount = 0;
 	    var output = [];
 	    var max = pivots[0].count;
-	    console.log(max);
 	    for(var i=0;i<pivots.length;i++){
 			var latlon = geohash.decode(pivots[i].value);
 	    	var latitude = latlon.latitude;
