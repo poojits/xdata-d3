@@ -1,7 +1,7 @@
 xdata-d3
 ========
 ```
-Usinf D3 alonf with node.js
+Usinf D3 along with node.js
 
 # Get the latest repo
 git clone https://github.com/poojits/xdata-d3.git
